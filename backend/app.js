@@ -29,7 +29,7 @@ app.get("/list/:listName", (req, res) => {
 // add a list
 // url-encoded params: name = String
 app.post("/list/add", (req, res) => {
-    if (req.body.name === "") return res.send("ERRORasdf");
+    if (req.body.name === "") return res.send("ERROR");
     newList = {name: req.body.name, items: []};
     List.create(newList, (err, list) => {
         if (err) return res.send("ERROR");
@@ -40,9 +40,9 @@ app.post("/list/add", (req, res) => {
 // add an item to a list
 // url-encoded params: title = String, body = String
 app.post("/list/:listName/item/add", (req, res) => {
-    let item = {title: req.body.title, body: req.body.body}
+    let item = {title: req.body.title, body: req.body.body, checked: false}
     List.find({name: req.params.listName}, (err, list) => {
-        if (err || !list) return "ERROR";
+        if (err || !list) return res.send("ERROR");
         let newList = new List(list[0]);
         let newItem = new Item(item);
         newItem.save();
@@ -50,6 +50,19 @@ app.post("/list/:listName/item/add", (req, res) => {
         newList.save((err, list) => {
             if (err) return res.send("ERROR");
             res.send("SUCCESS");            
+        });
+    })
+})
+
+// check/uncheck itema by id
+app.post("/list/:listName/item/:itemId/check", (req, res) => {
+    Item.findOne({_id: req.params.itemId}, (err, item) => {
+        if (err || !item) return res.send("ERROR")
+        item.checked = !item.checked;
+        let newItem = new Item(item);
+        newItem.save((err, item) => {
+            if (err) return res.send("ERROR");
+            res.send(item)
         });
     })
 })
