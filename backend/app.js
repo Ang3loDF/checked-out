@@ -45,11 +45,11 @@ app.post("/list/:listName/item/add", (req, res) => {
         if (err || !list) return res.send("ERROR");
         let newList = new List(list[0]);
         let newItem = new Item(item);
-        newItem.save();
         newList.items.push(newItem);
-        newList.save((err, list) => {
+        newList.save();
+        newItem.save((err, item) => {
             if (err) return res.send("ERROR");
-            res.send("SUCCESS");            
+            res.json(item);            
         });
     })
 })
@@ -62,25 +62,25 @@ app.post("/list/:listName/item/:itemId/check", (req, res) => {
         let newItem = new Item(item);
         newItem.save((err, item) => {
             if (err) return res.send("ERROR");
-            res.send(item)
+            res.json(item)
         });
     })
 })
 
 // delete item of a list by id
-app.post("/list/:listName/:itemId/delete", (req, res) => {
+app.post("/list/:listName/item/:itemId/delete", (req, res) => {
     Item.deleteOne({_id: req.params.itemId}, (err, item) => {
         if (err) return res.send("ERROR");
-        List.findOne({name: req.params.listName}, (err, list) => {
+        List.findOne({name: req.params.listName}).populate("items").exec()
+        .then(list => {
             let items = list.items.filter(e => e._id.toString() !== req.params.itemId);
-            console.log(items);
             list.items = items;
-            console.log(list);
             list.save((err, list) => {
                 if (err) return res.send("ERROR");
-                res.send("SUCCES");
+                res.json(list);
             });
         })
+        .catch();
     })
 })
 
