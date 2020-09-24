@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
-import { Paper, Grid, TextField, Button } from "@material-ui/core";
+import { Paper, Grid, TextField, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Palette } from '../Styles';
 
 const useStyle = makeStyles(() => ({
     paperStyle: {
         maxWidth: "500px",
-        height: "320px",
+        height: "270px",
         margin: "auto",
-        padding: "10px 25px"
+        padding: "30px 25px",
+        backgroundColor: Palette.bgPrimarySoft,
+        color: Palette.textPrimary
     },
     containerStyle: {
         paddingTop: "30vh"
+    },
+    title: {
+        marginBottom: "15px"
+    },
+    button: {
+        width: "200px",
+        height: "50px"
+    },
+    input: {
+        color: Palette.textPrimary,
+        
     }
 }))
 
@@ -51,12 +65,18 @@ const Popup = (props) => {
     }
 
     
-    const title = (<h1>Choose or create a list</h1>)
+    const title = (
+        <Typography variant="h5" className={classes.title}>
+            Choose or create a list
+        </Typography>
+    )
     
     const input = (
-    <TextField id="outlined-basic" label="List Name" variant="outlined" fullWidth 
-        value={nameInput} onChange={e => setNameInput(e.target.value)}
-        style={{marginTop: 20}}
+        <TextField id="outlined-basic" label="List Name" variant="outlined" fullWidth 
+            value={nameInput} onChange={e => setNameInput(e.target.value)}
+            style={{marginTop: 20}} autoComplete="off"
+            
+            InputProps={{ className: classes.input}}
     />)
     
     const submit = (
@@ -65,9 +85,9 @@ const Popup = (props) => {
                 {connectionErr ? <p style={{color: "red"}}>Connection error</p> : ""}
             </div>
             <Button variant="contained" color="primary" type="submit" onClick={onGetList}
-                style={{width: "200px", height: "50px"}}
+                className={classes.button}
             >
-                Go to list
+                <Typography>Open</Typography>
             </Button>
         </div>  
     )
