@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Paper, Checkbox, Button, IconButton } from '@material-ui/core';
+import { Paper, Checkbox, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Palette } from '../Styles';

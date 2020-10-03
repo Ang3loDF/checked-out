@@ -1,4 +1,4 @@
-// contains global values for the style
+// contains global values for the style B3E9C7 8367C7
 
 const Styles = {
     palette: {
