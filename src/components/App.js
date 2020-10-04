@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import List from "./List";
 import { Box } from "@material-ui/core"
 import { makeStyles, MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ListAltOutlined } from '@material-ui/icons';
 
 
 const useStyle = makeStyles(() => ({
@@ -33,9 +34,14 @@ function App() {
   const [showPopup, setShowPopup] = useState(true);
   const [showList, setShowList] = useState(false);
   const [list, setList] = useState([]);
+  
+  const [checkCount, setCheckCount] = useState(0)
+  const [listLength, setListLength] = useState(0)
 
   const handleGetList = (list) => {
     setList(list);
+    setListLength(list.items.length)
+    setCheckCount(list.items.filter(i => i.checked === true).length)
     setShowPopup(false);
     setShowList(true);
   }
@@ -45,13 +51,21 @@ function App() {
     setShowList(false);
   }
 
+  const handleCheck = (checked) => {
+    setCheckCount(checked ? checkCount + 1 : checkCount - 1)
+  }
+
+  const handleListLengthChange = (add) => {
+    setListLength(add ? listLength + 1 : listLength - 1)
+  }
+
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
         <Box className={classes.appStyle} >
-          <Navbar onGoHome={handleGoHome}/>
+          <Navbar onGoHome={handleGoHome} isListShown={showList} listProperty={{checked: checkCount, length: listLength}} />
           { showPopup ? <Popup onGetList={handleGetList} /> : "" }
-          { showList ? <List list={list} /> : "" }
+          { showList ? <List list={list} onCheck={handleCheck} onListLengthChange={handleListLengthChange}/> : "" }
         </Box>
       </MuiThemeProvider>
     </div>

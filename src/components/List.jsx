@@ -77,6 +77,7 @@ export default function List(props) {
             newItems.push(item);
             setItems(newItems);
             setAddPopup(false);
+            props.onListLengthChange(true)
             setNewItemTitle("");
             setNewItemBody("");
         })})
@@ -87,8 +88,13 @@ export default function List(props) {
         fetch("http://localhost:3001/list/"+name+"/item/"+_id+"/delete", {method: "POST"})
         .then(res => res.json().then(list => {
             setItems(list.items);
+            props.onListLengthChange(false)
         }))
         .catch()
+    }
+
+    const onCheck = (checked) => {
+        props.onCheck(checked)
     }
 
     const AddPopup = () => {
@@ -125,7 +131,7 @@ export default function List(props) {
                 <div className={classes.listStyle}>
                     <Typography variant="h4" className={classes.title}>{name}</Typography>
                     {items.map(e => {
-                        return <Item key={e._id} item={e} list={name} onDelete={handleDelete} />
+                        return <Item key={e._id} item={e} list={name} onDelete={handleDelete} onCheck={onCheck}/>
                     })}
                     {addPopup ? AddPopup() : "" }
                     <Button className={classes.addButton} onClick={handleAdd} color="primary" variant="contained">

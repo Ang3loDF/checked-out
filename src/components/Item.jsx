@@ -58,11 +58,13 @@ export default function Item(props) {
         fetch("http://localhost:3001/list/"+props.list+"/item/"+_id+"/check", {method: "POST"})
         .then(res => res.json().then(item => {
             setChecked(item.checked);
+            props.onCheck(item.checked)
         }))
         .catch();
     }
 
     const onDelete = () => {
+        if (checked) props.onCheck(false)
         props.onDelete(_id);
     }
 
