@@ -75,7 +75,7 @@ export default function List(props) {
 	// when create-item button is clicked on the add-form popup
 	const handleCreate = () => {
 		// post request to API
-		fetch("http://localhost:3001/list/" + name + "/item/add", {
+		fetch(process.env.REACT_APP_BASE_URL + "list/" + name + "/item/add", {
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json",
@@ -108,7 +108,12 @@ export default function List(props) {
 	const handleDelete = (_id) => {
 		// post request to API
 		fetch(
-			"http://localhost:3001/list/" + name + "/item/" + _id + "/delete",
+			process.env.REACT_APP_BASE_URL +
+				"list/" +
+				name +
+				"/item/" +
+				_id +
+				"/delete",
 			{ method: "POST" }
 		)
 			.then((res) =>

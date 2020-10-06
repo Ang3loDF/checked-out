@@ -41,13 +41,13 @@ const Popup = (props) => {
 	// when open-list button is clicked
 	const onGetList = () => {
 		// ask to find the list
-		fetch("http://localhost:3001/list/" + nameInput)
+		fetch(process.env.REACT_APP_BASE_URL + "list/" + nameInput)
 			.then((res) => {
 				if (res.status !== 200) return setConnectionErr(true);
 				res.json().then((res) => {
 					// if it does't exits, ask to create one
 					if (!res[0]) {
-						fetch("http://localhost:3001/list/add", {
+						fetch(process.env.REACT_APP_BASE_URL + "list/add", {
 							headers: {
 								Accept: "application/json",
 								"Content-Type": "application/json",

@@ -4,13 +4,15 @@ let express = require("express"),
 	cors = require("cors"),
 	app = express();
 
+// config environment variables from .env
+require("dotenv").config();
+
 let List = require("./models/list.js");
 Item = require("./models/item.js");
 
 // initialize environment variables
-const port = process.env.PORT || 3001,
-	databaseUrl =
-		process.env.DATABASE_URL || "mongodb://127.0.0.1:27017/checkedout";
+const port = process.env.PORT,
+	databaseUrl = process.env.DB_URL;
 
 mongoose.connect(databaseUrl, {
 	useUnifiedTopology: true,

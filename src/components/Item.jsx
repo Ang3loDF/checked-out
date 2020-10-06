@@ -64,7 +64,8 @@ export default function Item(props) {
 	// when the item is ckecked
 	const handleCheck = () => {
 		fetch(
-			"http://localhost:3001/list/" +
+			process.env.REACT_APP_BASE_URL +
+				"list/" +
 				props.list +
 				"/item/" +
 				_id +
